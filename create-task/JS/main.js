@@ -3,11 +3,20 @@ import "../CSS/style.css";
 const vector1 = [1, 2, 3];
 const vector2 = [2, 3, 4];
 
-const DOMSelectors {
-  vector1button: ,
+const DOMSelectors = {
+  vectorInputContainer: document.getElementById("vectorInputContainer"),
+  addVector: document.getElementById("addVector"),
+  removeVector: document.getElementById("removeVector"),
 }
 
-function createVectorArray {
+DOMSelectors.vectors.addEventListener("click", (event) => {
+  event.preventDefault();
+  array.forEach(element => {
+    
+  });
+});
+
+function createVectorArray () {
 
 }
 
@@ -21,7 +30,7 @@ function dotProduct(vector1, vector2) {
   }
 }
 
-function orthogonalize(vectorArray) {
+function gramSchmidt(vectorArray) {
 
 }
 
