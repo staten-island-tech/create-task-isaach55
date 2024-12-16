@@ -5,20 +5,17 @@ const vector2 = [2, 3, 4];
 
 const DOMSelectors = {
   vectorInputContainer: document.getElementById("vectorInputContainer"),
-  addVector: document.getElementById("addVector"),
-  removeVector: document.getElementById("removeVector"),
-}
+  addVector: document.getElementById("vectorInput"),
+};
 
-DOMSelectors.vectors.addEventListener("click", (event) => {
+DOMSelectors.addVector.addEventListener("click", (event) => {
   event.preventDefault();
-  array.forEach(element => {
-    
-  });
+  array.forEach((element) => {});
 });
 
-function createVectorArray () {
+//ADD VECTORS 1 at a time, number of vectors needs to bne equal to dimension of vector, check dimension of vector by iterating thru values until  breaking when no value
 
-}
+function createVectorArray() {}
 
 function dotProduct(vector1, vector2) {
   if (vector1.length == vector2.length) {
@@ -30,8 +27,6 @@ function dotProduct(vector1, vector2) {
   }
 }
 
-function gramSchmidt(vectorArray) {
-
-}
+function gramSchmidt(vectorArray) {}
 
 console.log(dotProduct(vector1, vector2));
