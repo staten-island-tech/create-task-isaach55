@@ -9,8 +9,11 @@ const DOMSelectors = {
 };
 
 DOMSelectors.addVector.addEventListener("click", (event) => {
-  event.preventDefault();
-  array.forEach((element) => {});
+  //event.preventDefault();
+  const vectorString = DOMSelectors.addVector.value;
+  console.log(vectorString);
+  //const vectorJS = JSON.parse(vectorString);
+  //console.log(vectorJS);
 });
 
 //ADD VECTORS 1 at a time, number of vectors needs to bne equal to dimension of vector, check dimension of vector by iterating thru values until  breaking when no value
