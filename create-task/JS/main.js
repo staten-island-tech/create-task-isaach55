@@ -5,18 +5,28 @@ const vector2 = [2, 3, 4];
 
 const DOMSelectors = {
   vectorInputContainer: document.getElementById("vectorInputContainer"),
-  addVector: document.getElementById("vectorInput"),
+  vectorInput: document.getElementById("vectorInput"),
+  submitVector: document.getElementById("submit"),
+  startButton: document.getElementById("submitButton"),
 };
 
-DOMSelectors.addVector.addEventListener("click", (event) => {
-  //event.preventDefault();
-  const vectorString = DOMSelectors.addVector.value;
+let vectorArray = [];
+console.log(vectorArray);
+
+DOMSelectors.submitVector.addEventListener("click", (event) => {
+  event.preventDefault();
+  let vectorString = DOMSelectors.vectorInput.value;
   console.log(vectorString);
-  //const vectorJS = JSON.parse(vectorString);
-  //console.log(vectorJS);
+  let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
+  console.log(vectorJS);
+  vectorArray.push(vectorJS);
+  console.log(vectorArray);
+  DOMSelectors.vectorInput.value = "";
 });
 
 //ADD VECTORS 1 at a time, number of vectors needs to bne equal to dimension of vector, check dimension of vector by iterating thru values until  breaking when no value
+
+//submit button iterates and makes sure length of all values is same YIPPIEEE
 
 function createVectorArray() {}
 
