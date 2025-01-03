@@ -6,40 +6,60 @@ const vector2 = [2, 3, 4];
 const DOMSelectors = {
   vectorInputContainer: document.getElementById("vectorInputContainer"),
   vectorInput: document.getElementById("vectorInput"),
-  submitVector: document.getElementById("submit"),
+  submitVector: document.getElementById("submitButton"),
   clearButton: document.getElementById("clearButton"),
-  startButton: document.getElementById("submitButton"),
+  startButton: document.getElementById("startButton"),
 };
 
 let vectorArray = [];
+let maxLength = "";
+let canOrthogonalize = false;
 console.log(vectorArray);
+
+function check(vectorString) {
+  try {
+    let vectorJS = JSON.parse(vectorString);
+  } catch (error) {
+    console.log("not valid JS!");
+    DOMSelectors.vectorInput.value = "";
+  }
+}
 
 DOMSelectors.submitVector.addEventListener("click", (submit) => {
   if (vectorArray.length == 0) {
     submit.preventDefault();
     let vectorString = DOMSelectors.vectorInput.value;
     console.log(vectorString);
+    check(vectorString);
     let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
     console.log(vectorJS);
     vectorArray.push(vectorJS);
     console.log(vectorArray);
-    console.log("max length =", vectorJS.length);
+    maxLength = vectorJS.length;
+    console.log("max length =", maxLength);
+    DOMSelectors.vectorInput.value = "";
+  } else {
+    submit.preventDefault();
+    let vectorString = DOMSelectors.vectorInput.value;
+    check(vectorString);
+    let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
+    if (maxLength == vectorJS.length && maxLength != vectorArray.length) {
+      console.log(vectorJS);
+      vectorArray.push(vectorJS);
+      console.log(vectorArray);
+      maxLength = vectorJS.length;
+      console.log("max length =", maxLength);
+    } else {
+      if (maxLength != vectorJS.length) {
+        console.log("not the right length");
+      } else {
+        console.log("too many vectors");
+      }
+      //error message inserted into html
+    }
     DOMSelectors.vectorInput.value = "";
   }
 });
-
-/*   submit.preventDefault();
-  let vectorString = DOMSelectors.vectorInput.value;
-  console.log(vectorString);
-  let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
-  console.log(vectorJS);
-  vectorArray.push(vectorJS);
-  console.log(vectorArray);
-  if (vectorArray.length == 1) {
-    let vectorLength = vectorJS.length;
-    console.log("max length: ", vectorLength);
-  }
-  DOMSelectors.vectorInput.value = "";*/
 
 DOMSelectors.clearButton.addEventListener("click", (clearVectors) => {
   vectorArray = [];
