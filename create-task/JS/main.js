@@ -9,6 +9,9 @@ const DOMSelectors = {
   submitVector: document.getElementById("submitButton"),
   clearButton: document.getElementById("clearButton"),
   startButton: document.getElementById("startButton"),
+  vectorDisplay: document.getElementById("vectorDisplay"),
+  maxLengthText: document.getElementById("maxLengthText"),
+  statusBox: document.getElementById("statusBox"),
 };
 
 let vectorArray = [];
@@ -37,6 +40,10 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     console.log(vectorArray);
     maxLength = vectorJS.length;
     console.log("max length =", maxLength);
+    DOMSelectors.maxLengthText.insertAdjacentHTML(
+      "beforebegin",
+      `<p>Length of inserted vectors should be: ${maxLength}</p>`
+    );
     DOMSelectors.vectorInput.value = "";
   } else {
     submit.preventDefault();
@@ -52,10 +59,17 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     } else {
       if (maxLength != vectorJS.length) {
         console.log("not the right length");
-      } else {
+        insertStatus("Not the right vector length!");
+      } else if (maxLength == vectorJS.length) {
         console.log("too many vectors");
+        insertStatus(
+          "Right amount of vectors to perform orthogonalization!!!!!!!"
+        );
       }
       //error message inserted into html
+    }
+    if (maxLength == vectorJS.length) {
+      insertStatus("Right amount of vectors to perform orthogonalization!");
     }
     DOMSelectors.vectorInput.value = "";
   }
@@ -65,6 +79,11 @@ DOMSelectors.clearButton.addEventListener("click", (clearVectors) => {
   vectorArray = [];
   console.log(vectorArray);
 });
+
+function insertStatus(text) {
+  DOMSelectors.statusBox.innerHTML = "";
+  DOMSelectors.statusBox.insertAdjacentHTML("beforebegin", `<p>${text}</p>`);
+}
 
 //ADD VECTORS 1 at a time, number of vectors needs to bne equal to dimension of vector, check dimension of vector by iterating thru values until  breaking when no value
 
