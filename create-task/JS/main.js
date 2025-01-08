@@ -8,7 +8,7 @@ const DOMSelectors = {
   vectorInput: document.getElementById("vectorInput"),
   submitVector: document.getElementById("submitButton"),
   clearButton: document.getElementById("clearButton"),
-  startButton: document.getElementById("startButton"),
+  startButtonContainer: document.getElementById("startButtonContainer"),
   vectorDisplay: document.getElementById("vectorDisplay"),
   maxLengthText: document.getElementById("maxLengthText"),
   statusBox: document.getElementById("statusBox"),
@@ -16,17 +16,7 @@ const DOMSelectors = {
 
 let vectorArray = [];
 let maxLength = "";
-let canOrthogonalize = false;
 console.log(vectorArray);
-
-function check(vectorString) {
-  try {
-    JSON.parse(vectorString);
-  } catch (error) {
-    console.log("not valid JS!");
-    DOMSelectors.vectorInput.value = "";
-  }
-}
 
 DOMSelectors.submitVector.addEventListener("click", (submit) => {
   DOMSelectors.statusBox.innerHTML = "";
@@ -72,31 +62,37 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
   }
   if (maxLength == vectorArray.length) {
     insertStatus("Right amount of vectors to perform orthogonalization!");
-    //Insert the HTML for the orthogonalization here!
+    //need to fix, if u add too many vectorts it makes multiple buttons
+    DOMSelectors.startButtonContainer.insertAdjacentHTML(
+      "afterbegin",
+      `<button id = "startButton">Perform Orthogonalization</button>`
+    );
+    document.getElementById("startButton").addEventListener("click", () => {
+      gramSchmidt(vectorArray);
+      clearAll();
+    });
   }
   DOMSelectors.vectorInput.value = "";
 });
 
-DOMSelectors.clearButton.addEventListener("click", (clearVectors) => {
+DOMSelectors.clearButton.addEventListener("click", () => {
   vectorArray = [];
-  DOMSelectors.statusBox.innerHTML = "";
-  DOMSelectors.vectorInput.value = "";
-  DOMSelectors.maxLengthText.innerHTML = "";
-  DOMSelectors.vectorDisplay.innerHTML = "";
+  clearAll();
 });
+
+function check(vectorString) {
+  try {
+    JSON.parse(vectorString);
+  } catch (error) {
+    insertStatus("Not valid JS! Enter in the form of a matrix.");
+    DOMSelectors.vectorInput.value = "";
+  }
+}
 
 function insertStatus(text) {
   DOMSelectors.statusBox.innerHTML = "";
   DOMSelectors.statusBox.insertAdjacentHTML("afterbegin", `<p>${text}</p>`);
 }
-
-DOMSelectors.startButton.addEventListener("click", (displayResults) => {
-  DOMSelectors.statusBox.innerHTML = "";
-  DOMSelectors.vectorInput.value = "";
-  DOMSelectors.maxLengthText.innerHTML = "";
-  DOMSelectors.vectorDisplay.innerHTML = "";
-  gramSchmidt(vectorArray);
-});
 
 function dotProduct(vector1, vector2) {
   let dotProduct = 0;
@@ -111,6 +107,16 @@ function gramSchmidt(array) {
   orthoBasis.push(array[0]);
   console.log(orthoBasis);
   for (let i = 1; i < array.length; i++) {}
+}
+
+function clearAll() {
+  DOMSelectors.statusBox.innerHTML = "";
+  DOMSelectors.vectorInput.value = "";
+  DOMSelectors.maxLengthText.innerHTML = "";
+  DOMSelectors.vectorDisplay.innerHTML = "";
+  DOMSelectors.startButtonContainer.innerHTML = "";
+  vectorArray = [];
+  maxLength = "";
 }
 
 console.log(dotProduct(vector1, vector2));
