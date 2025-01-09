@@ -9,6 +9,7 @@ const DOMSelectors = {
   vectorDisplay: document.getElementById("vectorDisplay"),
   maxLengthText: document.getElementById("maxLengthText"),
   statusBox: document.getElementById("statusBox"),
+  resultBox: document.getElementById("resultBox",)
 };
 
 let vectorArray = [];
@@ -17,6 +18,7 @@ console.log(vectorArray);
 
 DOMSelectors.submitVector.addEventListener("click", (submit) => {
   DOMSelectors.statusBox.innerHTML = "";
+  DOMSelectors.resultBox.innerHTML = "";
   DOMSelectors.startButtonContainer.innerHTML = "";
   if (vectorArray.length == 0) {
     submit.preventDefault();
@@ -66,7 +68,12 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     document.getElementById("startButton").addEventListener("click", () => {
       let orthoBasis = gramSchmidt(vectorArray);
       let normalBasis = normalize(orthoBasis);
+      console.log("normalbasis:", normalBasis);
       clearAll();
+      DOMSelectors.vectorDisplay.insertAdjacentHTML(
+        "beforeend",
+        `<p>Orthogonalized vectors:</p>`
+      );
       for (let i = 0; i < orthoBasis.length; i++) {
         DOMSelectors.vectorDisplay.insertAdjacentHTML(
           "beforeend",
@@ -74,6 +81,17 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
           <p>[${orthoBasis[i]}]</p>`
         );
       }
+      DOMSelectors.resultBox.insertAdjacentHTML(
+        "beforeend",
+        `<p>After normalization:</p>`
+      );
+      for (let i = 0; i < normalBasis.length; i++) {
+        DOMSelectors.resultBox.insertAdjacentHTML(
+          "beforeend",
+          `<p>Vector ${i + 1}:</p>
+          <p>[${normalBasis[i]}]</p>`
+        );
+      }   
     });
   }
   DOMSelectors.vectorInput.value = "";
@@ -156,7 +174,7 @@ function gramSchmidt(array) {
 }
 
 function normalize(basis) {
-  let result = [];
+  let normalBasis = [];
   for (let i = 0; i < basis.length; i++) {
     let vector = basis[i];
     let squareSum = 0;
@@ -168,9 +186,9 @@ function normalize(basis) {
     for (let k = 0; k < vector.length; k++) {
       normalizedVector.push(vector[k] / normalizeFactor);
     }
-    result.push(normalizedVector);
+    normalBasis.push(normalizedVector);
   }
-  return result;
+  return normalBasis;
 }
 
 function clearAll() {
@@ -178,6 +196,7 @@ function clearAll() {
   DOMSelectors.vectorInput.value = "";
   DOMSelectors.maxLengthText.innerHTML = "";
   DOMSelectors.vectorDisplay.innerHTML = "";
+  DOMSelectors.resultBox.innerHTML = "";
   DOMSelectors.startButtonContainer.innerHTML = "";
   vectorArray = [];
   maxLength = "";
