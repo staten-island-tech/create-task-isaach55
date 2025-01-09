@@ -20,6 +20,7 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
   DOMSelectors.startButtonContainer.innerHTML = "";
   if (vectorArray.length == 0) {
     submit.preventDefault();
+    DOMSelectors.vectorDisplay.innerHTML = "";
     let vectorString = DOMSelectors.vectorInput.value;
     console.log(vectorString);
     check(vectorString);
@@ -63,8 +64,15 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
       `<button id = "startButton">Perform Orthogonalization</button>`
     );
     document.getElementById("startButton").addEventListener("click", () => {
-      gramSchmidt(vectorArray);
+      let orthoBasis = gramSchmidt(vectorArray);
       clearAll();
+      for (let i = 0; i < orthoBasis.length; i++) {
+        DOMSelectors.vectorDisplay.insertAdjacentHTML(
+          "beforeend", 
+          `<p>Vector ${i+1}:</p>
+          <p>[${orthoBasis[i]}]</p>`
+        );
+      }
     });
   }
   DOMSelectors.vectorInput.value = "";
@@ -133,11 +141,12 @@ function gramSchmidt(array) {
     for (let k = 0; k < i; k++) {
       proj = add(proj, 
         scalar(orthoBasis[k], 
-          (dotProduct(vector, orthoBasis[k])) / (dotProduct(orthoBasis[k], orthoBasis[k]))));
+        (dotProduct(vector, orthoBasis[k])) / (dotProduct(orthoBasis[k], orthoBasis[k]))));
     }
     orthoBasis.push(subtract(vector, proj));
   }
-  console.log("orthobasis: ", orthoBasis);
+  console.log("orthoBasis:", orthoBasis);
+  return orthoBasis;
 }
 
 function clearAll() {
