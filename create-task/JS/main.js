@@ -65,11 +65,12 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     );
     document.getElementById("startButton").addEventListener("click", () => {
       let orthoBasis = gramSchmidt(vectorArray);
+      let normalBasis = normalize(orthoBasis);
       clearAll();
       for (let i = 0; i < orthoBasis.length; i++) {
         DOMSelectors.vectorDisplay.insertAdjacentHTML(
-          "beforeend", 
-          `<p>Vector ${i+1}:</p>
+          "beforeend",
+          `<p>Vector ${i + 1}:</p>
           <p>[${orthoBasis[i]}]</p>`
         );
       }
@@ -136,17 +137,40 @@ function gramSchmidt(array) {
     let proj = [];
     for (let j = 0; j < vector.length; j++) {
       proj.push(0);
-      console.log("proj: ", proj)
-    } 
+      console.log("proj: ", proj);
+    }
     for (let k = 0; k < i; k++) {
-      proj = add(proj, 
-        scalar(orthoBasis[k], 
-        (dotProduct(vector, orthoBasis[k])) / (dotProduct(orthoBasis[k], orthoBasis[k]))));
+      proj = add(
+        proj,
+        scalar(
+          orthoBasis[k],
+          dotProduct(vector, orthoBasis[k]) /
+            dotProduct(orthoBasis[k], orthoBasis[k])
+        )
+      );
     }
     orthoBasis.push(subtract(vector, proj));
   }
   console.log("orthoBasis:", orthoBasis);
   return orthoBasis;
+}
+
+function normalize(basis) {
+  let result = [];
+  for (let i = 0; i < basis.length; i++) {
+    let vector = basis[i];
+    let squareSum = 0;
+    let normalizedVector = [];
+    for (let j = 0; j < vector.length; j++) {
+      squareSum = squareSum + vector[j] * vector[j];
+    }
+    let normalizeFactor = Math.sqrt(squareSum);
+    for (let k = 0; k < vector.length; k++) {
+      normalizedVector.push(vector[k] / normalizeFactor);
+    }
+    result.push(normalizedVector);
+  }
+  return result;
 }
 
 function clearAll() {
