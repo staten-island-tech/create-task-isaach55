@@ -1,8 +1,5 @@
 import "../CSS/style.css";
 
-const vector1 = [1, 2, 3];
-const vector2 = [2, 3, 4];
-
 const DOMSelectors = {
   vectorInputContainer: document.getElementById("vectorInputContainer"),
   vectorInput: document.getElementById("vectorInput"),
@@ -20,6 +17,7 @@ console.log(vectorArray);
 
 DOMSelectors.submitVector.addEventListener("click", (submit) => {
   DOMSelectors.statusBox.innerHTML = "";
+  DOMSelectors.startButtonContainer.innerHTML = "";
   if (vectorArray.length == 0) {
     submit.preventDefault();
     let vectorString = DOMSelectors.vectorInput.value;
@@ -44,7 +42,7 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     submit.preventDefault();
     let vectorString = DOMSelectors.vectorInput.value;
     check(vectorString);
-    let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
+    let vectorJS = JSON.parse(vectorString);
     if (maxLength == vectorJS.length && maxLength != vectorArray.length) {
       DOMSelectors.vectorDisplay.insertAdjacentHTML(
         "beforeend",
@@ -54,15 +52,12 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
       vectorArray.push(vectorJS);
       console.log(vectorArray);
       maxLength = vectorJS.length;
-      console.log("max length =", maxLength);
     } else if (maxLength != vectorJS.length) {
-      console.log("not the right length");
       insertStatus("Not the right vector length!");
     }
   }
   if (maxLength == vectorArray.length) {
     insertStatus("Right amount of vectors to perform orthogonalization!");
-    //need to fix, if u add too many vectorts it makes multiple buttons
     DOMSelectors.startButtonContainer.insertAdjacentHTML(
       "afterbegin",
       `<button id = "startButton">Perform Orthogonalization</button>`
@@ -102,11 +97,47 @@ function dotProduct(vector1, vector2) {
   return dotProduct;
 }
 
+function scalar(vector, scalar) {
+  let result = [];
+  for (let i = 0; i < vector.length; i++) {
+    result.push(vector[i] * scalar);
+  }
+  return result;
+}
+
+function add(vector1, vector2) {
+  let result = [];
+  for (let i = 0; i < vector1.length; i++) {
+    result.push(vector1[i] + vector2[i]);
+  }
+  return result;
+}
+
+function subtract(vector1, vector2) {
+  let result = [];
+  for (let i = 0; i < vector1.length; i++) {
+    result.push(vector1[i] - vector2[i]);
+  }
+  return result;
+}
+
 function gramSchmidt(array) {
   let orthoBasis = [];
-  orthoBasis.push(array[0]);
-  console.log(orthoBasis);
-  for (let i = 1; i < array.length; i++) {}
+  for (let i = 0; i < array.length; i++) {
+    let vector = array[i];
+    let proj = [];
+    for (let j = 0; j < vector.length; j++) {
+      proj.push(0);
+      console.log("proj: ", proj)
+    } 
+    for (let k = 0; k < i; k++) {
+      proj = add(proj, 
+        scalar(orthoBasis[k], 
+          (dotProduct(vector, orthoBasis[k])) / (dotProduct(orthoBasis[k], orthoBasis[k]))));
+    }
+    orthoBasis.push(subtract(vector, proj));
+  }
+  console.log("orthobasis: ", orthoBasis);
 }
 
 function clearAll() {
@@ -118,5 +149,3 @@ function clearAll() {
   vectorArray = [];
   maxLength = "";
 }
-
-console.log(dotProduct(vector1, vector2));
