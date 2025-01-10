@@ -1,0 +1,21 @@
+.app {
+    align-items: center;
+    width: 50vw;
+}
+
+.form {
+    background-color: #33B166;
+    width: 50vw;
+    padding: 0.5vw;
+    border-radius: 1vw;
+}
+
+.displayBox{
+    background-color: #87D6A7;
+    padding: 0.5vw;
+    border-radius: 1vw;
+}
+
+.startButton {
+    color: blue;
+}

@@ -9,12 +9,11 @@ const DOMSelectors = {
   vectorDisplay: document.getElementById("vectorDisplay"),
   maxLengthText: document.getElementById("maxLengthText"),
   statusBox: document.getElementById("statusBox"),
-  resultBox: document.getElementById("resultBox",)
+  resultBox: document.getElementById("resultBox"),
 };
 
 let vectorArray = [];
 let maxLength = "";
-console.log(vectorArray);
 
 DOMSelectors.submitVector.addEventListener("click", (submit) => {
   DOMSelectors.statusBox.innerHTML = "";
@@ -24,14 +23,10 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     submit.preventDefault();
     DOMSelectors.vectorDisplay.innerHTML = "";
     let vectorString = DOMSelectors.vectorInput.value;
-    console.log(vectorString);
     check(vectorString);
-    let vectorJS = JSON.parse(vectorString); //User inputs as a string, converts into javascript
-    console.log(vectorJS);
+    let vectorJS = JSON.parse(vectorString);
     vectorArray.push(vectorJS);
-    console.log(vectorArray);
     maxLength = vectorJS.length;
-    console.log("max length =", maxLength);
     DOMSelectors.vectorDisplay.insertAdjacentHTML(
       "beforeend",
       `<p>[${vectorJS}]</p>`
@@ -51,9 +46,7 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
         "beforeend",
         `<p>[${vectorJS}]</p>`
       );
-      console.log(vectorJS);
       vectorArray.push(vectorJS);
-      console.log(vectorArray);
       maxLength = vectorJS.length;
     } else if (maxLength != vectorJS.length) {
       insertStatus("Not the right vector length!");
@@ -63,12 +56,11 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
     insertStatus("Right amount of vectors to perform orthogonalization!");
     DOMSelectors.startButtonContainer.insertAdjacentHTML(
       "afterbegin",
-      `<button id = "startButton">Perform Orthogonalization</button>`
+      `<button id="startButton" class="startButton">Perform Orthogonalization</button>`
     );
     document.getElementById("startButton").addEventListener("click", () => {
       let orthoBasis = gramSchmidt(vectorArray);
       let normalBasis = normalize(orthoBasis);
-      console.log("normalbasis:", normalBasis);
       clearAll();
       DOMSelectors.vectorDisplay.insertAdjacentHTML(
         "beforeend",
@@ -91,7 +83,7 @@ DOMSelectors.submitVector.addEventListener("click", (submit) => {
           `<p>Vector ${i + 1}:</p>
           <p>[${normalBasis[i]}]</p>`
         );
-      }   
+      }
     });
   }
   DOMSelectors.vectorInput.value = "";
@@ -155,7 +147,6 @@ function gramSchmidt(array) {
     let proj = [];
     for (let j = 0; j < vector.length; j++) {
       proj.push(0);
-      console.log("proj: ", proj);
     }
     for (let k = 0; k < i; k++) {
       proj = add(
@@ -169,7 +160,6 @@ function gramSchmidt(array) {
     }
     orthoBasis.push(subtract(vector, proj));
   }
-  console.log("orthoBasis:", orthoBasis);
   return orthoBasis;
 }
 

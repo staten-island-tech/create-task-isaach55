@@ -6,9 +6,11 @@
     <title>Gram-Schmidt Orthonormalization</title>
   </head>
   <body>
-    <div id="app">
-      <form action="">
-        <label for="vectorInput">Input vectors one at a time</label>
+    <div id="app" class="app">
+      <form action="" class="form">
+        <label for="vectorInput"
+          >Input linearly independent vectors one at a time</label
+        >
         <div id="vectorInputContainer">
           <input
             type="text"
@@ -18,11 +20,11 @@
           />
         </div>
         <input type="submit" id="submitButton" Submit />
+        <button id="clearButton">Clear Vectors</button>
       </form>
-      <button id="clearButton">Clear Vectors</button>
       <div id="startButtonContainer"></div>
-      <div id="vectorDisplay"></div>
-      <div id="resultBox"></div>
+      <div id="vectorDisplay" class="displayBox"></div>
+      <div id="resultBox" class="displayBox"></div>
       <div id="maxLengthText"></div>
       <div id="statusBox"></div>
     </div>
