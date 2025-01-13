@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     justify-self: center;
-    box-sizing: border-box;
 }
 
 .form {
@@ -10,9 +9,14 @@
     padding: 0.5vw;
     border-radius: 1vw;
     width: 50vw;
+    box-sizing: border-box;
 }
 
-.displayBox{
+.startButton {
+    padding: 0.25vw;
+}
+
+.displayContainer{
     background-color: #87D6A7;
     padding: 0.5vw;
     border-radius: 1vw;
